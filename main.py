@@ -6,8 +6,6 @@ if __name__ == "__main__":
     posssible_letters = {"a": 0, "b": 1, "c": 2, "d": 3, "e": 4, "f": 5, "h": 6, "g":7}
     g.print()
 
-    print(g.board[0][1].possible_moves(Position(x=1, y=0), g.board))
-
     while True:
         try:
             # input module

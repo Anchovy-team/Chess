@@ -44,22 +44,22 @@ class Pawn(Piece):
         x, y = cur_pos.x, cur_pos.y
 
         if self.color == 'white':
-            if y + 1 < 8 and g.board[y + 1][x] is None:
+            if y + 1 < 8 and self.g.board[y + 1][x] is None:
                 moves.append(Position(x, y + 1))
-                if (y == 1) and g.board[y + 2][x] is None:
+                if (y == 1) and self.g.board[y + 2][x] is None:
                     moves.append(Position(x, y + 2))
             for ix in [-1, 1]:
-                if 0 <= x + ix < 8 and 0 <= y + 1 < 8 and g.board[y + 1][x + ix] is not None and \
-                        g.board[y + 1][x + ix].color != self.color:
+                if 0 <= x + ix < 8 and 0 <= y + 1 < 8 and self.g.board[y + 1][x + ix] is not None and \
+                        self.g.board[y + 1][x + ix].color != self.color:
                     moves.append(Position(x + ix, y + 1))
         else:
-            if y - 1 <= 0 and g.board[y - 1][x] is None:
+            if y - 1 <= 0 and self.g.board[y - 1][x] is None:
                 moves.append(Position(x, y - 1))
-                if (y == 6) and g.board[y - 2][x] is None:
+                if (y == 6) and self.g.board[y - 2][x] is None:
                     moves.append(Position(x, y - 2))
             for ix in [-1, 1]:
-                if 0 <= x + ix < 8 and 0 <= y - 1 < 8 and g.board[y - 1][x + ix] is not None and \
-                        g.board[y - 1][x + ix].color != self.color:
+                if 0 <= x + ix < 8 and 0 <= y - 1 < 8 and self.g.board[y - 1][x + ix] is not None and \
+                        self.g.board[y - 1][x + ix].color != self.color:
                     moves.append(Position(x + ix, y - 1))
         return moves
 
@@ -76,9 +76,9 @@ class Rook(Piece):
         for ix in [-1, 1]:
             x, y = cur_pos.x + ix, cur_pos.y
             while 0 <= x < 8:
-                if g.board[y][x] is None:
+                if self.g.board[y][x] is None:
                     moves.append(Position(x, y))
-                elif g.board[y][x].color != self.color:
+                elif self.g.board[y][x].color != self.color:
                     moves.append(Position(x, y))
                     break
                 else:
@@ -87,9 +87,9 @@ class Rook(Piece):
         for iy in [-1, 1]:
             x, y = cur_pos.x, cur_pos.y + iy
             while 0 <= y < 8:
-                if g.board[y][x] is None:
+                if self.g.board[y][x] is None:
                     moves.append(Position(x, y))
-                elif g.board[y][x].color != self.color:
+                elif self.g.board[y][x].color != self.color:
                     moves.append(Position(x, y))
                     break
                 else:
@@ -111,7 +111,7 @@ class King(Piece):
             for dy in [-1, 0, 1]:
                 new_x, new_y = cur_pos.x + dx, cur_pos.y + dy
                 if 0 <= new_x < 8 and 0 <= new_y < 8 and (
-                        g.board[new_y][new_x] is None or g.board[new_y][new_x].color != self.color):
+                        self.g.board[new_y][new_x] is None or self.g.board[new_y][new_x].color != self.color):
                     moves.append(Position(new_x, new_y))
         return moves
 
@@ -131,9 +131,9 @@ class Queen(Piece):
                 if dx != 0 or dy != 0:
                     new_x, new_y = x + dx, y + dy
                     while 0 <= new_x < 8 and 0 <= new_y < 8:
-                        if g.board[new_y][new_x] is None:
+                        if self.g.board[new_y][new_x] is None:
                             moves.append(Position(new_x, new_y))
-                        elif g.board[new_y][new_x].color != self.color:
+                        elif self.g.board[new_y][new_x].color != self.color:
                             moves.append(Position(new_x, new_y))
                             break
                         else:
@@ -157,9 +157,9 @@ class Bishop(Piece):
             for dy in [-1, 1]:
                 new_x, new_y = x + dx, y + dy
                 while 0 <= new_x < 8 and 0 <= new_y < 8:
-                    if g.board[new_y][new_x] is None:
+                    if self.g.board[new_y][new_x] is None:
                         moves.append(Position(new_x, new_y))
-                    elif g.board[new_y][new_x].color != self.color:
+                    elif self.g.board[new_y][new_x].color != self.color:
                         moves.append(Position(new_x, new_y))
                         break
                     else:
@@ -183,13 +183,13 @@ class Knight(Piece):
             for dy in [-1, 1]:
                 new_x, new_y = x + dx, y + dy
                 if 0 <= new_x < 8 and 0 <= new_y < 8:
-                    if g.board[new_y][new_x] is None or g.board[new_y][new_x].color != self.color:
+                    if self.g.board[new_y][new_x] is None or self.g.board[new_y][new_x].color != self.color:
                         moves.append(Position(new_x, new_y))
         for dx in [-1, 1]:
             for dy in [-2, 2]:
                 new_x, new_y = x + dx, y + dy
                 if 0 <= new_x < 8 and 0 <= new_y < 8:
-                    if g.board[new_y][new_x] is None or g.board[new_y][new_x].color != self.color:
+                    if self.g.board[new_y][new_x] is None or self.g.board[new_y][new_x].color != self.color:
                         moves.append(Position(new_x, new_y))
         return moves
 
@@ -211,7 +211,7 @@ class Game:
             [R(w), N(w), B(w), Q(w), K(w), B(w), N(w), R(w)],
             [P(w), P(w), P(w), P(w), P(w), P(w), P(w), P(w)],
             [None, None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None, None],
+            [None, None, None, K(w), None, None, None, None],
             [None, None, None, None, None, None, None, None],
             [None, None, None, None, None, None, None, None],
             [P(b), P(b), P(b), P(b), P(b), P(b), P(b), P(b)],
@@ -235,26 +235,3 @@ class Game:
                     output += "    "
             output += '\n'
         print(output)
-
-
-g = Game()
-possible_nums = {"1": 0, "2": 1, "3": 2, "4": 3, "5": 4, "6": 5, "7": 6, "8": 7}
-possible_letters = {"a": 0, "b": 1, "c": 2, "d": 3, "e": 4, "f": 5, "h": 6, "g": 7}
-g.print()
-
-while True:
-    try:
-        # input module
-        start = input("Choose a figure: ")
-        end = input("Chose where to place it: ")
-        if len(start) > 2 or not start[0] in possible_letters or not start[1] in possible_nums \
-                or len(end) > 2 or not end[0] in possible_letters or not end[1] in possible_nums:
-            raise Exception('Input Error')
-
-        # output module
-        print(possible_letters[start[0]], possible_nums[start[1]])
-        print(possible_letters[end[0]], possible_nums[end[1]])
-        g.print()
-    except Exception as inst:
-        print(inst)
-        s = input()
