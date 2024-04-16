@@ -235,10 +235,9 @@ posssible_nums = {"1": 0, "2": 1, "3": 2, "4": 3, "5": 4, "6": 5, "7": 6, "8": 7
 posssible_letters = {"a": 0, "b": 1, "c": 2, "d": 3, "e": 4, "f": 5, "h": 6, "g":7}
 g.print()
 
-print(g.board[0][1].possible_moves(Position(x=1,y=0), g.board))
+print(g.board[0][1].possible_moves(Position(x=1, y=0), g.board))
 
 while True:
-    break
     try:
         # input module
         start = input("Choose a figure: ")

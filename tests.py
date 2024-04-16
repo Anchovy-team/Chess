@@ -5,13 +5,13 @@ from Chessboard import Pawn, Rook, King, Queen, Bishop, Knight, Position, Game
 class PawnTest(unittest.TestCase):
     def test_move_two_squares_initial(self):
         p = Pawn('white', (1,0))
-        pos = p.possible_moves(current_position, board)
+        pos = p.possible_moves(p.position, board)
         expected = [Position(1,1), Position(1,2)]
         self.assertEqual(pos, expected)
 
     def test_move_one_square_not_initial(self):
         p = Pawn('white', (1,1))
-        pos = p.possible_moves(current_position, board)
+        pos = p.possible_moves(p.position, board)
         expected = [Position(1,2)]
         self.assertEqual(pos, expected)
 
