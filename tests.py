@@ -3,20 +3,32 @@ from Chessboard import Pawn, Rook, King, Queen, Bishop, Knight, Position, Game
 
 
 class PawnTest(unittest.TestCase):
+
+    g = Game()
+
+    def test_pawn_1(self):
+        out = self.g.board[0][1].possible_moves(Position(x=1, y=0), self.g.board)
+
+        r_out = [Position(0, 2), Position(2, 2)]
+        print(out, r_out)
+        for i in range(len(out)):
+            print(type(out[i]), type(r_out[i]), 1)
+            self.assertEqual(str(out[i]), str(r_out[i]))
+
     def test_move_two_squares_initial(self):
-        p = Pawn('white', (1,0))
+        p = Pawn('white', (1, 0))
         pos = p.possible_moves(p.position, board)
-        expected = [Position(1,1), Position(1,2)]
+        expected = [Position(1, 1), Position(1, 2)]
         self.assertEqual(pos, expected)
 
     def test_move_one_square_not_initial(self):
-        p = Pawn('white', (1,1))
+        p = Pawn('white', (1, 1))
         pos = p.possible_moves(p.position, board)
-        expected = [Position(1,2)]
+        expected = [Position(1, 2)]
         self.assertEqual(pos, expected)
 
     def test_capture_diagonally(self):
-        p1 = Pawn('white', (1,0))
+        p1 = Pawn('white', (1, 0))
         p2 = Pawn('black', (2,1))
         g = Game()
         g.board[1][0] = p1
