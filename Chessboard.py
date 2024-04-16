@@ -211,7 +211,7 @@ class Game:
             [R(w), N(w), B(w), Q(w), K(w), B(w), N(w), R(w)],
             [P(w), P(w), P(w), P(w), P(w), P(w), P(w), P(w)],
             [None, None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None, None],
+            [None, None, None, K(w), None, None, None, None],
             [None, None, None, None, None, None, None, None],
             [None, None, None, None, None, None, None, None],
             [P(b), P(b), P(b), P(b), P(b), P(b), P(b), P(b)],
