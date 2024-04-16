@@ -228,5 +228,3 @@ class Game:
                     output += "    "
             output += '\n'
         print(output)
-
-
