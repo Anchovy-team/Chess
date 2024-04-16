@@ -225,6 +225,11 @@ class Game:
                     piece.p = Position(x, y)
                     piece.g = self
 
+    @staticmethod
+    def is_check_mate() -> bool:
+        # FIXME
+        return False
+
     def print(self):
         output = ""
         for line in self.board:
