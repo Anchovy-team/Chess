@@ -1,9 +1,8 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from dataclasses import dataclass
 from typing import List
 
 
-@dataclass()
 class Position:
     def __init__(self, x=0, y=0):
         self.x = x
@@ -199,7 +198,7 @@ class Knight(Piece):
 
 
 class Game:
-    board: List[List[Piece]]
+    board: List[List[Piece or None]]
 
     def __init__(self):
         Q = Queen
@@ -242,7 +241,6 @@ class Game:
             self.board[edy][edx] = self.board[dy][dx]
             self.board[dy][dx] = None
 
-
     def clean_board(self):
         self.board = [
             [None, None, None, None, None, None, None, None],
@@ -254,6 +252,7 @@ class Game:
             [None, None, None, None, None, None, None, None],
             [None, None, None, None, None, None, None, None],
         ]
+
     @staticmethod
     def is_check_mate() -> bool:
         # FIXME
@@ -266,6 +265,6 @@ class Game:
                 if piece is not None:
                     output += str(piece) + " "
                 else:
-                    output += "    "
+                    output += "  " + u"\u2004"
             output += '\n'
         print(output)
