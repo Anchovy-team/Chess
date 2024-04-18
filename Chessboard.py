@@ -232,7 +232,7 @@ class Game:
     def move(self, start: Position, end: Position):
         dx, dy = start.x, start.y
         edx, edy = end.x, end.y
-        if self.board[0][4] is None:
+        if self.board[dy][dx] is None:
             print("No piece here.")
 
         elif end not in self.board[dy][dx].possible_moves(start):
