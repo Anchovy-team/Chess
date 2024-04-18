@@ -109,10 +109,13 @@ class King(Piece):
         moves = []
         for dx in [-1, 0, 1]:
             for dy in [-1, 0, 1]:
-                new_x, new_y = cur_pos.x + dx, cur_pos.y + dy
-                if 0 <= new_x < 8 and 0 <= new_y < 8 and (
-                        self.g.board[new_y][new_x] is None or self.g.board[new_y][new_x].color != self.color):
-                    moves.append(Position(new_x, new_y))
+                if dx == 0 and dy == 0:
+                    continue
+                else:
+                    new_x, new_y = cur_pos.x + dx, cur_pos.y + dy
+                    if 0 <= new_x < 8 and 0 <= new_y < 8 and (
+                            self.g.board[new_y][new_x] is None or self.g.board[new_y][new_x].color != self.color):
+                        moves.append(Position(new_x, new_y))
         return moves
 
 
