@@ -246,6 +246,8 @@ class KingTest(unittest.TestCase):
         pos = k.possible_moves(k.position)
         expected = [Position(2,2), Position(2,3), Position(2,4), Position(3,2), Position(3,4), Position(4,2), Position(4,3), Position(4,4)]
         self.g.board[2][2] = k
+
+
         #self.g.print()
         self.assertEqual(str(pos), str(expected))
 

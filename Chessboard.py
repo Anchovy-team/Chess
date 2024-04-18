@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from typing import List
 
 
+@dataclass()
 class Position:
     def __init__(self, x=0, y=0):
         self.x = x
@@ -109,10 +110,13 @@ class King(Piece):
         moves = []
         for dx in [-1, 0, 1]:
             for dy in [-1, 0, 1]:
-                new_x, new_y = cur_pos.x + dx, cur_pos.y + dy
-                if 0 <= new_x < 8 and 0 <= new_y < 8 and (
-                        self.g.board[new_y][new_x] is None or self.g.board[new_y][new_x].color != self.color):
-                    moves.append(Position(new_x, new_y))
+                if dx == 0 and dy == 0:
+                    continue
+                else:
+                    new_x, new_y = cur_pos.x + dx, cur_pos.y + dy
+                    if 0 <= new_x < 8 and 0 <= new_y < 8 and (
+                            self.g.board[new_y][new_x] is None or self.g.board[new_y][new_x].color != self.color):
+                        moves.append(Position(new_x, new_y))
         return moves
 
 
@@ -224,7 +228,21 @@ class Game:
                 if piece is not None:
                     piece.p = Position(x, y)
                     piece.g = self
-                    
+
+    def move(self, start: Position, end: Position):
+        dx, dy = start.x, start.y
+        edx, edy = end.x, end.y
+        if self.board[dy][dx] is None:
+            print("No piece here.")
+
+        elif end not in self.board[dy][dx].possible_moves(start):
+            print(self.board[dy][dx].possible_moves(start))
+            print("You can not go here.")
+        else:
+            self.board[edy][edx] = self.board[dy][dx]
+            self.board[dy][dx] = None
+
+
     def clean_board(self):
         self.board = [
             [None, None, None, None, None, None, None, None],
