@@ -227,7 +227,20 @@ class Game:
                 if piece is not None:
                     piece.p = Position(x, y)
                     piece.g = self
-                    
+
+    def move(self, start: Position, end: Position):
+        dx, dy = start.x, start.y
+        edx, edy = end.x, end.y
+        if self.board[dy][dx] is None:
+            print("No piece here.")
+
+        elif f'[{edy}, {edx}]' not in self.board[dy][dx].possible_moves(start):
+            print(self.board[dy][dx].possible_moves(start))
+            print("You can not go here.")
+        else:
+            self.board[edy][edx] = self.board[dy][dx]
+            self.board[dy][dx] = None
+
     def clean_board(self):
         self.board = [
             [None, None, None, None, None, None, None, None],
@@ -251,6 +264,6 @@ class Game:
                 if piece is not None:
                     output += str(piece) + " "
                 else:
-                    output += "    "
+                    output += "   "
             output += '\n'
         print(output)
