@@ -224,7 +224,18 @@ class Game:
                 if piece is not None:
                     piece.p = Position(x, y)
                     piece.g = self
-
+                    
+    def clean_board(self):
+        self.board = [
+            [None, None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None, None],
+        ]
     @staticmethod
     def is_check_mate() -> bool:
         # FIXME
