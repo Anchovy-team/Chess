@@ -12,6 +12,11 @@ class Position:
     def __repr__(self):
         return f"[{self.y}, {self.x}]"
 
+    def __eq__(self, other):
+        if isinstance(other, Position):
+            return self.x == other.x and self.y == other.y
+        return False
+
 
 @dataclass
 class Piece:
@@ -54,7 +59,7 @@ class Pawn(Piece):
                         self.g.board[y + 1][x + ix].color != self.color:
                     moves.append(Position(x + ix, y + 1))
         else:
-            if y - 1 <= 0 and self.g.board[y - 1][x] is None:
+            if y - 1 >= 0 and self.g.board[y - 1][x] is None:
                 moves.append(Position(x, y - 1))
                 if (y == 6) and self.g.board[y - 2][x] is None:
                     moves.append(Position(x, y - 2))
