@@ -78,9 +78,11 @@ class RookTest(unittest.TestCase):
     g = Game()
 
     def test_move_along_rank_file(self):
+        self.g.clean_board()
         r = Rook('white')
         r.position = Position(0,0)
         r.g = self.g
+        self.g.board[0][0] = r
         pos = r.possible_moves(r.position)
         expected = [Position(i, 0) for i in range(1, 8)] + [Position(0, i) for i in range(1, 8)]
         self.assertEqual(len(pos), len(expected))
@@ -114,11 +116,13 @@ class KnightTest(unittest.TestCase):
     g = Game()
 
     def test_move_L_shape(self):
+        self.g.clean_board()
         k = Knight('white')
         k.position = Position(3,3)
         k.g = self.g
         pos = k.possible_moves(k.position)
         expected = [Position(1,2), Position(1,4), Position(2,1), Position(2,5), Position(4,1), Position(4,5), Position(5,2), Position(5,4)]
+        self.g.board[2][2] = k
         self.assertEqual(len(pos), len(expected))
         for i in range(len(pos)):
             if pos[i] in expected:
@@ -127,6 +131,7 @@ class KnightTest(unittest.TestCase):
                 return None
 
     def test_jump_over_pieces(self):
+        self.g.clean_board()
         k = Knight('white')
         p = Pawn('white')
         k.position = Position(3,3)
@@ -135,6 +140,9 @@ class KnightTest(unittest.TestCase):
         p.g = self.g
         pos = k.possible_moves(k.position)
         expected = [Position(1,2), Position(1,4), Position(2,1), Position(2,5), Position(4,1), Position(4,5), Position(5,2), Position(5,4)]
+        self.g.board[2][2] = k
+        self.g.board[2][3] = p
+        #self.g.print()
         self.assertEqual(len(pos), len(expected))
         for i in range(len(pos)):
             if pos[i] in expected:
@@ -147,9 +155,12 @@ class QueenTest(unittest.TestCase):
     g = Game()
 
     def test_move_along_rank_file_diagonal(self):
+        self.g.clean_board()
         q = Queen('white')
         q.position = Position(3,3)
         q.g = self.g
+        self.g.board[3][3] = q
+        self.g.print()
         pos = q.possible_moves(q.position)
         expected = [Position(i, 3) for i in range(0, 8) if i != 3] + \
                     [Position(3, i) for i in range(0, 8) if i != 3] + \
@@ -193,11 +204,10 @@ class BishopTest(unittest.TestCase):
         b.g = self.g
         pos = b.possible_moves(b.position)
         expected = [Position(i, j) for i in range(0, 8) for j in range(0, 8) if abs(i - 3) == abs(j - 3) and i != 3]
-        b.g = self.g
         self.g.board[2][2] = b
         self.g.print()
-        print(expected)
-        print(pos)
+        #print(expected)
+        #print(pos)
         self.assertEqual(len(pos), len(expected))
         for i in range(len(pos)):
             if pos[i] in expected:
@@ -229,11 +239,14 @@ class KingTest(unittest.TestCase):
     g = Game()
 
     def test_move_one_square_any_direction(self):
+        self.g.clean_board()
         k = King('white')
         k.position = Position(3,3)
         k.g = self.g
         pos = k.possible_moves(k.position)
         expected = [Position(2,2), Position(2,3), Position(2,4), Position(3,2), Position(3,4), Position(4,2), Position(4,3), Position(4,4)]
+        self.g.board[2][2] = k
+        #self.g.print()
         self.assertEqual(str(pos), str(expected))
 
     def test_cannot_move_into_check(self):
