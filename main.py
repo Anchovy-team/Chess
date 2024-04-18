@@ -1,6 +1,7 @@
 from Chessboard import *
 
 if __name__ == "__main__":
+
     g = Game()
     possible_nums = {"1": 0, "2": 1, "3": 2, "4": 3, "5": 4, "6": 5, "7": 6, "8": 7}
     possible_letters = {"a": 0, "b": 1, "c": 2, "d": 3, "e": 4, "f": 5, "g": 6, "h": 7}
@@ -15,12 +16,14 @@ if __name__ == "__main__":
                     or len(end) > 2 or not end[0] in possible_letters or not end[1] in possible_nums:
                 raise Exception('Input Error')
 
+
             else:
                 print("move")
                 g.move(Position(possible_nums[start[1]], possible_letters[start[0]]),
                        Position(possible_nums[end[1]], possible_letters[end[0]]))
                 print()
                 print("start", possible_nums[start[1]], possible_letters[start[0]])
+                print(g.board[possible_nums[start[1]]][possible_letters[start[0]]])
                 print("fin", possible_nums[end[1]], possible_letters[end[0]])
                 g.print()
 
