@@ -16,9 +16,8 @@ if __name__ == "__main__":
                     or len(end) > 2 or not end[0] in possible_letters or not end[1] in possible_nums:
                 raise Exception('Input Error')
 
-             g.move(Position(possible_letters[start[0]], possible_nums[start[1]]),
+            g.move(Position(possible_letters[start[0]], possible_nums[start[1]]),
                        Position(possible_letters[end[0]], possible_nums[end[1]]))
-             g.print()
 
             if g.is_check_mate():
                 raise Exception('Game finished')
