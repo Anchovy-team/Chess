@@ -11,6 +11,11 @@ class Position:
     def __repr__(self):
         return f"[{self.y}, {self.x}]"
 
+    def __eq__(self, other):
+        if isinstance(other, Position):
+            return self.x == other.x and self.y == other.y
+        return False
+
 
 @dataclass
 class Piece:
@@ -53,7 +58,7 @@ class Pawn(Piece):
                         self.g.board[y + 1][x + ix].color != self.color:
                     moves.append(Position(x + ix, y + 1))
         else:
-            if y - 1 <= 0 and self.g.board[y - 1][x] is None:
+            if y - 1 >= 0 and self.g.board[y - 1][x] is None:
                 moves.append(Position(x, y - 1))
                 if (y == 6) and self.g.board[y - 2][x] is None:
                     moves.append(Position(x, y - 2))
@@ -231,10 +236,16 @@ class Game:
     def move(self, start: Position, end: Position):
         dx, dy = start.x, start.y
         edx, edy = end.x, end.y
+        #print(start, "проверка внутри мув start" )
+        #print(end, "проверка внутри мув end")
+        #print(self.board[dy][dx], "проверка внутри мув")
+        #print(f'[{edy}, {edx}]')
+        #print(self.board[dy][dx].possible_moves(start))
+        #print(end in self.board[dy][dx].possible_moves(start))
         if self.board[dy][dx] is None:
             print("No piece here.")
 
-        elif f'[{edy}, {edx}]' not in self.board[dy][dx].possible_moves(start):
+        elif end not in self.board[dy][dx].possible_moves(start):
             print(self.board[dy][dx].possible_moves(start))
             print("You can not go here.")
         else:
