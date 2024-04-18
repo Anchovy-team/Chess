@@ -1,6 +1,7 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from dataclasses import dataclass
 from typing import List
+import chevron
 
 
 class Position:
@@ -176,7 +177,7 @@ class Bishop(Piece):
                     new_y += dy
         return moves
 
-
+@dataclass
 class Knight(Piece):
     def __init__(self, color):
         super().__init__(color)
@@ -203,7 +204,7 @@ class Knight(Piece):
 
 
 class Game:
-    board: List[List[Piece]]
+    board: List[List[Piece or None]]
 
     def __init__(self):
         Q = Queen
@@ -236,12 +237,6 @@ class Game:
     def move(self, start: Position, end: Position):
         dx, dy = start.x, start.y
         edx, edy = end.x, end.y
-        #print(start, "проверка внутри мув start" )
-        #print(end, "проверка внутри мув end")
-        #print(self.board[dy][dx], "проверка внутри мув")
-        #print(f'[{edy}, {edx}]')
-        #print(self.board[dy][dx].possible_moves(start))
-        #print(end in self.board[dy][dx].possible_moves(start))
         if self.board[dy][dx] is None:
             print("No piece here.")
 
@@ -263,6 +258,7 @@ class Game:
             [None, None, None, None, None, None, None, None],
             [None, None, None, None, None, None, None, None],
         ]
+
     @staticmethod
     def is_check_mate() -> bool:
         # FIXME
@@ -275,6 +271,55 @@ class Game:
                 if piece is not None:
                     output += str(piece) + " "
                 else:
-                    output += "   "
+                    output += "  " + u"\u2004"
             output += '\n'
         print(output)
+
+    def print_svg(self):
+        render_list = []
+        for rows in self.board:
+            for piece in rows:
+                if piece:
+                    match piece.__class__.__name__:
+                        case "Queen":
+                            if piece.color == "black":
+                                f = open("Pieces/Chess_qdt45.svg", "r")
+
+                            else:
+                                f = open("Pieces/Chess_qlt45.svg", "r")
+                        case "Knight":
+                            if piece.color == "black":
+                                f = open("Pieces/Chess_ndt45.svg", "r")
+
+                            else:
+                                f = open("Pieces/Chess_nlt45.svg", "r")
+                        case "Bishop":
+                            if piece.color == "black":
+                                f = open("Pieces/Chess_bdt45.svg", "r")
+
+                            else:
+                                f = open("Pieces/Chess_blt45.svg", "r")
+                        case "Pawn":
+                            if piece.color == "black":
+                                f = open("Pieces/Chess_pdt45.svg", "r")
+
+                            else:
+                                f = open("Pieces/Chess_plt45.svg", "r")
+                        case "Rook":
+                            if piece.color == "black":
+                                f = open("Pieces/Chess_rdt45.svg", "r")
+
+                            else:
+                                f = open("Pieces/Chess_rlt45.svg", "r")
+                        case "King":
+                            if piece.color == "black":
+                                f = open("Pieces/Chess_kdt45.svg", "r")
+
+                            else:
+                                f = open("Pieces/Chess_klt45.svg", "r")
+                    render_list.append([piece.p.x * 45, piece.p.y * 45, f.read()])
+
+        data = {"items": render_list}
+        f = open("new_board.svg", "w")
+        f.write(chevron.render(open("clean_board.svg", 'r'), data))
+
