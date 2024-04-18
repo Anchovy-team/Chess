@@ -8,12 +8,6 @@
      fill="none"
      xmlns="http://www.w3.org/2000/svg">
     <!---->
-
-    <defs>
-        <pattern id="green" height="10" width="10" patternUnits="userSpaceOnUse">
-         <line x1="0" y1="0" x2="10" y2="10" stroke-width="2" stroke="#99AA77"/>
-        </pattern>
-    </defs>
         <rect x="0" y="0" width="45" height="45" fill="#FFC39E" />
         <rect x="45" y="0" width="45" height="45" fill="#B65631" />
         <rect x="90" y="0" width="45" height="45" fill="#FFC39E" />
