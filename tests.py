@@ -213,9 +213,6 @@ class BishopTest(unittest.TestCase):
         self.g.board[3][3] = b
         pos = b.possible_moves()
         expected = [Position(i, j) for i in range(0, 8) for j in range(0, 8) if abs(i - 3) == abs(j - 3) and i != 3]
-        # self.g.print()
-        # print(expected)
-        # print(pos)
         self.assertEqual(len(pos), len(expected))
         for i in range(len(pos)):
             if pos[i] in expected:
