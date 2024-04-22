@@ -17,15 +17,30 @@ if __name__ == "__main__":
                 raise Exception('Input Error')
 
             g.move(Position(possible_letters[start[0]], possible_nums[start[1]]),
-                       Position(possible_letters[end[0]], possible_nums[end[1]]))
+                   Position(possible_letters[end[0]], possible_nums[end[1]]))
 
-            if g.is_check_mate():
-                raise Exception('Game finished')
+            if g.is_check_mate() != 'continue':
+                g.print()
+                if g.is_check_mate() == 'white':
+                    raise Exception('Black won, game finished')
+                elif g.is_check_mate() == 'black':
+                    raise Exception('White won, game finished')
+
+            if g.is_draw():
+                g.print()
+                raise Exception('Draw, game finished')
+
+            if g.is_check('black'):
+                # FIXME
+                pass
+
+            if g.is_check('white'):
+                # FIXME
+                pass
 
             # output module
-            #print(possible_letters[start[0]], possible_nums[start[1]])
-            #print(possible_letters[end[0]], possible_nums[end[1]])
             g.print()
+
         except Exception as inst:
             print(inst)
             s = input()
