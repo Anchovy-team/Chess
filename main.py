@@ -36,8 +36,11 @@ if __name__ == "__main__":
                     break
             if g.is_check_mate() != 'continue':
                 g.game_over = False
-                print("ПРОЁЁЁЁЁЁЁЁЁЁЁЁЁЁЁЁЁЁЁЁЁЁЁЁБ")
+                print(g.is_check_mate(), "lost")
                 break
+            elif g.is_draw():
+                print("DRAW")
+                g.game_over = False
 
 
 
