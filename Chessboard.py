@@ -1,7 +1,7 @@
 from abc import abstractmethod
 from dataclasses import dataclass
 from typing import List
-import chevron
+#import chevron
 
 
 class Position:
@@ -204,7 +204,6 @@ class Knight(Piece):
 
 class Game:
     board: List[List[Piece or None]]
-
     def __init__(self):
         Q = Queen
         K = King
@@ -238,16 +237,21 @@ class Game:
         edx, edy = end.x, end.y
         if self.board[dy][dx] is None:
             print("No piece here.")
+            return False
 
         elif end not in self.board[dy][dx].possible_moves():
             # print(self.board[dy][dx].possible_moves())
             print("You can not go here.")
+            return False
 
         else:
             piece = self.board[dy][dx]
             piece.position = Position(edx, edy)
             self.board[edy][edx] = self.board[dy][dx]
             self.board[dy][dx] = None
+            return True
+
+
 
     def master_move(self, start: Position, end: Position):
         dx, dy = start.x, start.y
