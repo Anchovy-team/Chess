@@ -237,17 +237,16 @@ class Game:
         dx, dy = start.x, start.y
         edx, edy = end.x, end.y
         if self.board[dy][dx] is None:
-            print("No piece here.")
-
+            raise Exception('No piece here.')
         elif end not in self.board[dy][dx].possible_moves():
-            # print(self.board[dy][dx].possible_moves())
-            print("You can not go here.")
-
+            print(self.board[dy][dx], start.x, start.y, end.x, end.y)
+            raise Exception('You can not go here.')
         else:
             piece = self.board[dy][dx]
             piece.position = Position(edx, edy)
             self.board[edy][edx] = self.board[dy][dx]
             self.board[dy][dx] = None
+            # return True
 
     def master_move(self, start: Position, end: Position):
         dx, dy = start.x, start.y
@@ -368,13 +367,13 @@ class Game:
     def print(self):
         output = "\n"
         i = 1
-        for line in self.board:
-            output += str(i) + "  "
+        for line in self.board[::-1]:
+            output += str(9 - i) + "  "
             for piece in line:
                 if piece is not None:
-                    output += str(piece) + " "
+                    output += str(piece) + "  "
                 else:
-                    output += "  " + u"\u2004"
+                    output += " " + "  "
             output += "\n"
             i += 1
         output += ("   A  " + "B  " + "C  " "D  " + "E  " + "F  " +
@@ -386,46 +385,50 @@ class Game:
         for rows in self.board:
             for piece in rows:
                 if piece:
-                    f = ""
+                    svgshka = ""
                     match piece.__class__.__name__:
                         case "Queen":
                             if piece.color == "black":
-                                f = open("Pieces/Chess_qdt45.svg", "r")
+                                svgshka = open("Pieces/Chess_qdt45.svg", "r")
 
                             else:
-                                f = open("Pieces/Chess_qlt45.svg", "r")
+                                svgshka = open("Pieces/Chess_qlt45.svg", "r")
                         case "Knight":
                             if piece.color == "black":
-                                f = open("Pieces/Chess_ndt45.svg", "r")
+                                svgshka = open("Pieces/Chess_ndt45.svg", "r")
 
                             else:
-                                f = open("Pieces/Chess_nlt45.svg", "r")
+                                svgshka = open("Pieces/Chess_nlt45.svg", "r")
                         case "Bishop":
                             if piece.color == "black":
-                                f = open("Pieces/Chess_bdt45.svg", "r")
+                                svgshka = open("Pieces/Chess_bdt45.svg", "r")
 
                             else:
-                                f = open("Pieces/Chess_blt45.svg", "r")
+                                svgshka = open("Pieces/Chess_blt45.svg", "r")
                         case "Pawn":
                             if piece.color == "black":
-                                f = open("Pieces/Chess_pdt45.svg", "r")
+                                svgshka = open("Pieces/Chess_pdt45.svg", "r")
 
                             else:
-                                f = open("Pieces/Chess_plt45.svg", "r")
+                                svgshka = open("Pieces/Chess_plt45.svg", "r")
                         case "Rook":
                             if piece.color == "black":
-                                f = open("Pieces/Chess_rdt45.svg", "r")
+                                svgshka = open("Pieces/Chess_rdt45.svg", "r")
 
                             else:
-                                f = open("Pieces/Chess_rlt45.svg", "r")
+                                svgshka = open("Pieces/Chess_rlt45.svg", "r")
                         case "King":
                             if piece.color == "black":
-                                f = open("Pieces/Chess_kdt45.svg", "r")
+                                svgshka = open("Pieces/Chess_kdt45.svg", "r")
 
                             else:
-                                f = open("Pieces/Chess_klt45.svg", "r")
-                    render_list.append([piece.p.x * 45, piece.p.y * 45, f.read()])
+                                svgshka = open("Pieces/Chess_klt45.svg", "r")
+                    render_list.append([(piece.position.x) * 45, (7-piece.position.y) * 45, str(svgshka.read())])
+                    svgshka.close()
 
         data = {"items": render_list}
-        f = open("new_board.svg", "w")
-        f.write(chevron.render(open("clean_board.svg", 'r'), data))
+        svgeha = open("new_board.svg", "w")
+        temp = open("clean_board.svg", 'r')
+        svgeha.write(chevron.render(temp, data))
+        temp.close()
+        svgeha.close()
