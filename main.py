@@ -15,7 +15,6 @@ if __name__ == "__main__":
         try:
             start = input(f"{'white' if turn else 'black'}`s move. Choose a figure: ")
             end = input("Chose where to place it: ")
-
             if len(start) != 2 or not start[0] in possible_letters or not start[1] in possible_nums \
                     or len(end) != 2 or not end[0] in possible_letters or not end[1] in possible_nums:
                 raise Exception('Input Error')
@@ -50,5 +49,4 @@ if __name__ == "__main__":
                 print(inst)
                 break
             print(inst)
-
             s = input()
