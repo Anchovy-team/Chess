@@ -13,15 +13,14 @@ if __name__ == "__main__":
     turn = True
     while True:
         try:
-            start = input(f"{'white' if turn else 'black'}`s move. Choose a figure: ")
-            end = input("Chose where to place it: ")
+            start = input(f"{'White' if turn else 'Black'}'s move. Choose a figure: ")
+            end = input("Choose where to place it: ")
             if len(start) != 2 or not start[0] in possible_letters or not start[1] in possible_nums \
                     or len(end) != 2 or not end[0] in possible_letters or not end[1] in possible_nums:
                 raise Exception('Input Error')
 
             if g.board[possible_nums[start[1]]][possible_letters[start[0]]].color != ('white' if turn else 'black'):
-                print(g.board[possible_nums[start[1]]][possible_letters[start[0]]].color, 'white' if turn else 'black')
-                raise Exception('There are no your piece on this space')
+                raise Exception('There is no your piece on this space')
 
             g.move(Position(possible_letters[start[0]], possible_nums[start[1]]),
                    Position(possible_letters[end[0]], possible_nums[end[1]]))
@@ -29,7 +28,7 @@ if __name__ == "__main__":
             if g.is_check('white' if turn else 'black'):
                 g.master_move(Position(possible_letters[end[0]], possible_nums[end[1]]),
                               Position(possible_letters[start[0]], possible_nums[start[1]]))
-                raise Exception('You are on check')
+                raise Exception('You are under check')
 
             g.print()
             g.print_svg()
