@@ -192,7 +192,7 @@ class QueenTest(unittest.TestCase):
         q.g = self.g
         p.g = self.g
         self.g.board[3][3] = q
-        self.g.board[3][4] = p
+        self.g.board[4][3] = p
         pos = q.possible_moves()
         blocked_moves = [Position(3, i) for i in range(5, 8)] + \
                         [Position(i, 4) for i in range(4, 8)] + \
