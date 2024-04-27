@@ -237,10 +237,9 @@ class Game:
         dx, dy = start.x, start.y
         edx, edy = end.x, end.y
         if self.board[dy][dx] is None:
-            raise Exception('No piece here.')
+            raise Exception('No piece here')
         elif end not in self.board[dy][dx].possible_moves():
-            print(self.board[dy][dx], start.x, start.y, end.x, end.y)
-            raise Exception('You can not go here.')
+            raise Exception('You can not go there')
         else:
             piece = self.board[dy][dx]
             piece.position = Position(edx, edy)
@@ -385,50 +384,50 @@ class Game:
         for rows in self.board:
             for piece in rows:
                 if piece:
-                    svgshka = ""
+                    svg_piece = ""
                     match piece.__class__.__name__:
                         case "Queen":
                             if piece.color == "black":
-                                svgshka = open("Pieces/Chess_qdt45.svg", "r")
+                                svg_piece = open("Pieces/Chess_qdt45.svg", "r")
 
                             else:
-                                svgshka = open("Pieces/Chess_qlt45.svg", "r")
+                                svg_piece = open("Pieces/Chess_qlt45.svg", "r")
                         case "Knight":
                             if piece.color == "black":
-                                svgshka = open("Pieces/Chess_ndt45.svg", "r")
+                                svg_piece = open("Pieces/Chess_ndt45.svg", "r")
 
                             else:
-                                svgshka = open("Pieces/Chess_nlt45.svg", "r")
+                                svg_piece = open("Pieces/Chess_nlt45.svg", "r")
                         case "Bishop":
                             if piece.color == "black":
-                                svgshka = open("Pieces/Chess_bdt45.svg", "r")
+                                svg_piece = open("Pieces/Chess_bdt45.svg", "r")
 
                             else:
-                                svgshka = open("Pieces/Chess_blt45.svg", "r")
+                                svg_piece = open("Pieces/Chess_blt45.svg", "r")
                         case "Pawn":
                             if piece.color == "black":
-                                svgshka = open("Pieces/Chess_pdt45.svg", "r")
+                                svg_piece = open("Pieces/Chess_pdt45.svg", "r")
 
                             else:
-                                svgshka = open("Pieces/Chess_plt45.svg", "r")
+                                svg_piece = open("Pieces/Chess_plt45.svg", "r")
                         case "Rook":
                             if piece.color == "black":
-                                svgshka = open("Pieces/Chess_rdt45.svg", "r")
+                                svg_piece = open("Pieces/Chess_rdt45.svg", "r")
 
                             else:
-                                svgshka = open("Pieces/Chess_rlt45.svg", "r")
+                                svg_piece = open("Pieces/Chess_rlt45.svg", "r")
                         case "King":
                             if piece.color == "black":
-                                svgshka = open("Pieces/Chess_kdt45.svg", "r")
+                                svg_piece = open("Pieces/Chess_kdt45.svg", "r")
 
                             else:
-                                svgshka = open("Pieces/Chess_klt45.svg", "r")
-                    render_list.append([(piece.position.x) * 45, (7-piece.position.y) * 45, str(svgshka.read())])
-                    svgshka.close()
+                                svg_piece = open("Pieces/Chess_klt45.svg", "r")
+                    render_list.append([piece.position.x * 45, (7 - piece.position.y) * 45, str(svg_piece.read())])
+                    svg_piece.close()
 
         data = {"items": render_list}
-        svgeha = open("new_board.svg", "w")
+        svg_board = open("new_board.svg", "w")
         temp = open("clean_board.svg", 'r')
-        svgeha.write(chevron.render(temp, data))
+        svg_board.write(chevron.render(temp, data))
         temp.close()
-        svgeha.close()
+        svg_board.close()
