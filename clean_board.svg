@@ -1,13 +1,18 @@
 
-<svg viewBox="0 0 360 360"
-     width="360"
-     height="360"
+<svg viewBox="0 0 400 400"
+     width="400"
+     height="400"
      stroke-linejoin="round"
      stroke-linecap="round"
      fill-rule="evenodd"
      fill="none"
      xmlns="http://www.w3.org/2000/svg">
-    <!---->
+    <style>
+    .Rrrrr {
+      font: bold 40px serif;
+      fill: black;
+    }
+  </style>
         <rect x="0" y="0" width="45" height="45" fill="#FFC39E" />
         <rect x="45" y="0" width="45" height="45" fill="#B65631" />
         <rect x="90" y="0" width="45" height="45" fill="#FFC39E" />
@@ -72,9 +77,27 @@
         <rect x="225" y="315" width="45" height="45" fill="#FFC39E" />
         <rect x="270" y="315" width="45" height="45" fill="#B65631" />
         <rect x="315" y="315" width="45" height="45" fill="#FFC39E" />
+
     {{#items}}
     <g transform="translate({{0}} {{1}})">
         {{{2}}}
     </g>
     {{/items}}
+
+<text x="0" y="395" class="Rrrrr">A</text>
+    <text x="45" y="395" class="Rrrrr">B</text>
+    <text x="90" y="395" class="Rrrrr">C</text>
+    <text x="135" y="395" class="Rrrrr">D</text>
+    <text x="180" y="395" class="Rrrrr">E</text>
+    <text x="225" y="395" class="Rrrrr">F</text>
+    <text x="270" y="395" class="Rrrrr">G</text>
+    <text x="315" y="395" class="Rrrrr">H</text>
+    <text x="360" y="40" class="Rrrrr">8</text>
+    <text x="360" y="85" class="Rrrrr">7</text>
+    <text x="360" y="130" class="Rrrrr">6</text>
+    <text x="360" y="175" class="Rrrrr">5</text>
+    <text x="360" y="220" class="Rrrrr">4</text>
+    <text x="360" y="265" class="Rrrrr">3</text>
+    <text x="360" y="310" class="Rrrrr">2</text>
+    <text x="360" y="355" class="Rrrrr">1</text>
 </svg>
