@@ -1,6 +1,6 @@
 # Chess-game
 
-### Requirments
+### Requirements
 ```Python version 3.12``` and chevron are rquired to run the project
 
 
