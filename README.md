@@ -12,7 +12,7 @@ Start ```main.py``` file:
 ```python3 main.py```
 
 and simply enter your move in such format:
-![](docs/Terminal output.png)
+![](docs/Terminal\ output.png)
 
 This programm also renders chessboard in svg format(new_board.svg), but after each move you need to update browser page.
 ![](docs/svg_board_example.png)
