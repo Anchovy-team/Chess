@@ -83,7 +83,7 @@ class Pawn(Piece):
 
 
 class Rook(Piece):
-    Rook_move:bool = False
+    rook_moved:bool = False
 
     def __init__(self, color):
         super().__init__(color)
@@ -143,18 +143,18 @@ class King(Piece):
         # CASTLING
         if not self.first_check and not self.king_moved:
             if self.color == 'white':
-                if self.g[5][0] is None and self.g[6][0] is None\
-                        and self.g[7][0].__class__.__name__ == 'Rook' and self.g[7][0].color == 'white' and not self.g[7][0].rook_moved:
+                if self.g.board[0][5] is None and self.g.board[0][6] is None\
+                        and self.g.board[0][7].__class__.__name__ == 'Rook' and self.g.board[0][7].color == 'white' and not self.g.board[0][7].rook_moved:
                     moves.append(Position(6, 0))
-                if self.g[3][0] is None and self.g[2][0] is None and self.g[1][0] is None \
-                        and self.g[0][0].__class__.__name__ == 'Rook' and self.g[7][0].color == 'white' and not self.g[0][0].rook_moved:
+                if self.g.board[0][3] is None and self.g.board[0][2] is None and self.g.board[0][1] is None \
+                        and self.g.board[0][0].__class__.__name__ == 'Rook' and self.g.board[0][0].color == 'white' and not self.g.board[0][0].rook_moved:
                     moves.append(Position(1, 0))
             else:
-                if self.g[5][7] is None and self.g[6][7] is None\
-                        and self.g[7][7].__class__.__name__ == 'Rook' and self.g[7][7].color == 'black' and not self.g[0][7].rook_moved:
+                if self.g.board[7][5] is None and self.g.board[7][6] is None\
+                        and self.g.board[7][7].__class__.__name__ == 'Rook' and self.g.board[7][7].color == 'black' and not self.g.board[0][7].rook_moved:
                     moves.append(Position(6, 7))
-                if self.g[3][7] is None and self.g[2][7] is None and self.g[1][7] is None \
-                        and self.g[0][7].__class__.__name__ == 'Rook' and self.g[7][7].color == 'black' and not self.g[0][7].rook_moved:
+                if self.g.board[7][3] is None and self.g.board[7][2] is None and self.g.board[7][1] is None \
+                        and self.g.board[7][0].__class__.__name__ == 'Rook' and self.g.board[7][0].color == 'black' and not self.g.board[7][0].rook_moved:
                     moves.append(Position(1, 7))
 
         return moves
@@ -284,9 +284,46 @@ class Game:
                 self.board[dy][dx].rook_moved = True
             if piece.__class__.__name__ == 'King':
                 self.board[dy][dx].king_moved = True
+                if edy == 0 and edx == 6:
+                    self.board[0][5] = self.board[0][7]
+                    self.board[0][5].position = Position(5, 0)
+                    self.board[0][7] = None
+                if edy == 0 and edx == 1:
+                    self.board[0][2] = self.board[0][0]
+                    self.board[0][2].position = Position(2, 0)
+                    self.board[0][0] = None
+                if edy == 7 and edx == 6:
+                    self.board[7][5] = self.board[7][7]
+                    self.board[7][5].position = Position(5, 7)
+                    self.board[7][7] = None
+                if edy == 7 and edx == 1:
+                    self.board[7][2] = self.board[7][0]
+                    self.board[7][2].position = Position(2, 7)
+                    self.board[7][0] = None
             if piece.__class__.__name__ == 'Pawn':
                 if abs(edx - dx) == 1 and abs(edy - dy) == 1 and self.board[edy][edx] is None:
                     self.board[dy][edx] = None
+                if (edy == 7 and piece.color == 'white') or (edy == 0 and piece.color == 'black'):
+                    print("Rook - R"
+                          "Knight - K"
+                          "Queen - Q"
+                          "Bishop - B")
+                    pl_choose = input("Choose a figure: ")
+                    match pl_choose:
+                        case 'R':
+                            self.board[dy][dx] = Rook(piece.color)
+                            self.board[dy][dx].position = piece.position
+                        case 'K':
+                            self.board[dy][dx] = Knight(piece.color)
+                            self.board[dy][dx].position = piece.position
+                        case 'Q':
+                            self.board[dy][dx] = Queen(piece.color)
+                            self.board[dy][dx].position = piece.position
+                        case 'B':
+                            self.board[dy][dx] = Bishop(piece.color)
+                            self.board[dy][dx].position = piece.position
+                        case _:
+                            raise Exception("Error no such piece")
                 piece.moved2cells = abs(dy - edy) == 2
 
             self.board[edy][edx] = self.board[dy][dx]
