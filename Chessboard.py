@@ -37,6 +37,8 @@ class Piece:
 
 
 class Pawn(Piece):
+    moved2cells: bool = False
+
     def __init__(self, color):
         super().__init__(color)
 
@@ -48,6 +50,12 @@ class Pawn(Piece):
         x, y = self.position.x, self.position.y
 
         if self.color == 'white':
+            if (x > 0 and not (self.g.board[y][x - 1] is None) and self.g.board[y][x - 1].__class__.__name__ == 'Pawn'
+                    and self.g.board[y][x - 1].color != 'white' and self.g.board[y][x - 1].moved2cells):
+                moves.append(Position(x - 1, y + 1))
+            if (x < 7 and not (self.g.board[y][x + 1] is None) and self.g.board[y][x + 1].__class__.__name__ == 'Pawn'
+                    and self.g.board[y][x + 1].color != 'white' and self.g.board[y][x + 1].moved2cells):
+                moves.append(Position(x + 1, y + 1))
             if y + 1 < 8 and self.g.board[y + 1][x] is None:
                 moves.append(Position(x, y + 1))
                 if (y == 1) and self.g.board[y + 2][x] is None:
@@ -57,6 +65,12 @@ class Pawn(Piece):
                         self.g.board[y + 1][x + ix].color != self.color:
                     moves.append(Position(x + ix, y + 1))
         else:
+            if (x > 0 and not (self.g.board[y][x - 1] is None) and self.g.board[y][x - 1].__class__.__name__ == 'Pawn'
+                    and self.g.board[y][x - 1].color != 'black' and self.g.board[y][x - 1].moved2cells):
+                moves.append(Position(x - 1, y - 1))
+            if (x < 7 and not (self.g.board[y][x + 1] is None) and self.g.board[y][x + 1].__class__.__name__ == 'Pawn'
+                    and self.g.board[y][x + 1].color != 'black' and self.g.board[y][x + 1].moved2cells):
+                moves.append(Position(x + 1, y - 1))
             if y - 1 >= 0 and self.g.board[y - 1][x] is None:
                 moves.append(Position(x, y - 1))
                 if (y == 6) and self.g.board[y - 2][x] is None:
@@ -69,6 +83,8 @@ class Pawn(Piece):
 
 
 class Rook(Piece):
+    Rook_move:bool = False
+
     def __init__(self, color):
         super().__init__(color)
 
@@ -103,6 +119,9 @@ class Rook(Piece):
 
 
 class King(Piece):
+    first_check: bool = False
+    king_moved: bool = False
+
     def __init__(self, color):
         super().__init__(color)
 
@@ -120,6 +139,24 @@ class King(Piece):
                     if 0 <= new_x < 8 and 0 <= new_y < 8 and (
                             self.g.board[new_y][new_x] is None or self.g.board[new_y][new_x].color != self.color):
                         moves.append(Position(new_x, new_y))
+
+        # CASTLING
+        if not self.first_check and not self.king_moved:
+            if self.color == 'white':
+                if self.g[5][0] is None and self.g[6][0] is None\
+                        and self.g[7][0].__class__.__name__ == 'Rook' and self.g[7][0].color == 'white' and not self.g[7][0].rook_moved:
+                    moves.append(Position(6, 0))
+                if self.g[3][0] is None and self.g[2][0] is None and self.g[1][0] is None \
+                        and self.g[0][0].__class__.__name__ == 'Rook' and self.g[7][0].color == 'white' and not self.g[0][0].rook_moved:
+                    moves.append(Position(1, 0))
+            else:
+                if self.g[5][7] is None and self.g[6][7] is None\
+                        and self.g[7][7].__class__.__name__ == 'Rook' and self.g[7][7].color == 'black' and not self.g[0][7].rook_moved:
+                    moves.append(Position(6, 7))
+                if self.g[3][7] is None and self.g[2][7] is None and self.g[1][7] is None \
+                        and self.g[0][7].__class__.__name__ == 'Rook' and self.g[7][7].color == 'black' and not self.g[0][7].rook_moved:
+                    moves.append(Position(1, 7))
+
         return moves
 
 
@@ -243,9 +280,17 @@ class Game:
         else:
             piece = self.board[dy][dx]
             piece.position = Position(edx, edy)
+            if piece.__class__.__name__ == 'Rook':
+                self.board[dy][dx].rook_moved = True
+            if piece.__class__.__name__ == 'King':
+                self.board[dy][dx].king_moved = True
+            if piece.__class__.__name__ == 'Pawn':
+                if abs(edx - dx) == 1 and abs(edy - dy) == 1 and self.board[edy][edx] is None:
+                    self.board[dy][edx] = None
+                piece.moved2cells = abs(dy - edy) == 2
+
             self.board[edy][edx] = self.board[dy][dx]
             self.board[dy][dx] = None
-            # return True
 
     def master_move(self, start: Position, end: Position):
         dx, dy = start.x, start.y
@@ -279,6 +324,8 @@ class Game:
             for piece in line:
                 if not (piece is None) and piece.__class__.__name__ == "King" and piece.color == color:
                     king_position = piece.position
+        if king_position in all_possible_moves:
+            self[king_position.x][king_position.y].first_check = True
         return king_position in all_possible_moves
 
     def is_check_mate(self) -> str:
