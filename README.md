@@ -1,7 +1,7 @@
 # Chess-game
 
 ### Requirements
-```Python version 3.12``` and chevron are rquired to run the project
+```Python version 3.12``` and chevron are required to run the project
 
 
 ```pip install chevron```
